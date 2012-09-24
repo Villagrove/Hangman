@@ -24,6 +24,7 @@ public class HangmanViewController implements ActionListener{
         frame.setVisible(true);
     }
     
+    @Override
     public void actionPerformed(ActionEvent e){
         JButton temp = (JButton) e.getSource();
     }

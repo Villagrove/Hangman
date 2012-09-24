@@ -16,10 +16,21 @@ import javax.swing.JPanel;
  */
 public class GraphicsPanel extends JPanel{
     
+    private int wrongs;
     
     @Override
     public Dimension getPreferredSize(){
         return new Dimension(320, 240);
+    }
+    
+    public void setWrongs(int wrongs){
+        if(wrongs > 6){
+            wrongs = 6;
+        }else if (wrongs < 0){
+            wrongs = 0;
+        }
+        this.wrongs = wrongs;
+        this.revalidate();
     }
     
     /*
@@ -37,8 +48,16 @@ public class GraphicsPanel extends JPanel{
         g.fillRect(180, 20, 10, 20);
         
         g.setColor(Color.RED);
-        g.fillOval(170, 40, 30, 30);
-        g.fillRect(183, 70, 5, 60);
-        g.fillRect(163, 90, 20, 5);
+        
+        switch(wrongs){
+            case 6: g.fillOval(170, 40, 30, 30); // Head
+            case 5: g.drawLine(185, 70, 185, 130); // Body     
+            case 4: g.drawLine(185, 85, 165, 100); // Left Arm
+            case 3: g.drawLine(185, 85, 205, 100); // Right Arm
+            case 2: g.drawLine(185, 130, 165, 145); // Left Leg
+            case 1: g.drawLine(185, 130, 205, 145); // Right Leg
+                    break;
+            default: break;
+        }
     }
 }

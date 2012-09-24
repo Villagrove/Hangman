@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  * @author capnhowdy21
  */
 public class LettersPanel extends JPanel{
-        JButton[] buttons;
+    JButton[] buttons;
     
     /*
      * LettersPanel Constructor
