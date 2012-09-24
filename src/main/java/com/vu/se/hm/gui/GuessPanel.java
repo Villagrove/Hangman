@@ -15,27 +15,38 @@ import javax.swing.JPanel;
 public class GuessPanel extends JPanel{
     
     private String word;
-    
-    /*
-     * GuessPanel Constructor
-     * takes the word to be guessed
+
+    /**
+     * Constructor
+     * @param word word to be drawn with blank spaces for letters not yet guessed
      */
     public GuessPanel(String word){
         this.word = word;
     }
     
-     public void setWord(String word){
+     /**
+     * @param word word to be drawn with blank spaces for letters not yet guessed
+     * Tells program to repaint after word has been updated;
+     */
+    public void setWord(String word){
         this.word = word;
         this.revalidate();
     }
     
+    /**
+     * @return preferredSize
+     */
     @Override
     public Dimension getPreferredSize(){
         return new Dimension(320,50);
     }
     
     
-    //Paints the word, static needs work.
+    //Paints the word
+    /**
+     * Paints the word on the screen and dashes
+     * @param g
+     */
     @Override
     public void paint(Graphics g){
         super.paint(g);

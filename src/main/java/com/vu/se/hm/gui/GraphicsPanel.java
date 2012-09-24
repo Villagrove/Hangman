@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.vu.se.hm.gui;
 
 import java.awt.Color;
@@ -18,11 +15,19 @@ public class GraphicsPanel extends JPanel{
     
     private int wrongs;
     
+    /**
+     *
+     * @return Preferred Dimensions for this panel
+     */
     @Override
     public Dimension getPreferredSize(){
         return new Dimension(320, 240);
     }
     
+    /**
+     *
+     * @param wrongs number of incorrect guesses
+     */
     public void setWrongs(int wrongs){
         if(wrongs > 6){
             wrongs = 6;
@@ -33,9 +38,10 @@ public class GraphicsPanel extends JPanel{
         this.revalidate();
     }
     
-    /*
-     * Paints the the stick figure.
-     * Static right now, needs work.
+
+    /**
+     * Paints the stick figure, switch fall thru is intentional
+     * @param g Graphics context to draw upon
      */
     @Override
     public void paint(Graphics g){

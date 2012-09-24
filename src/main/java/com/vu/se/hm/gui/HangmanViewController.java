@@ -24,9 +24,18 @@ public class HangmanViewController implements ActionListener{
         frame.setVisible(true);
     }
     
+    public void letterGuessed(char letter){
+        // Send letter to model to see if correct
+        // If correct send updated word to GuessPanel(Spaces for unguessed letters)
+        // If incorrect increase the number of wrong guess and send to Graphics panel
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e){
         JButton temp = (JButton) e.getSource();
+        String letter = temp.getText();
+        temp.setEnabled(false);
+        letterGuessed(letter.charAt(0));
     }
 }
 
