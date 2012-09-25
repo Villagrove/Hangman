@@ -1,6 +1,8 @@
 package com.vu.se.hm.gui;
 
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -16,10 +18,22 @@ public class HangmanViewController implements ActionListener{
     public HangmanViewController(String word){
         JFrame frame = new JFrame("TMNT Hangman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout(3,0));
-        frame.add(new GraphicsPanel());
-        frame.add(new GuessPanel(word));
-        frame.add(new LettersPanel(this));
+        frame.setMinimumSize(new Dimension(640,440));
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        
+        c.gridx = 1;
+        c.gridy = 0;
+        frame.add(new GraphicsPanel(), c);
+        
+        c.gridx = 1;
+        c.gridy = 1;
+        frame.add(new GuessPanel(word), c);
+        
+        c.gridx = 1;
+        c.gridy = 2;
+        frame.add(new LettersPanel(this), c);
+        
         frame.pack();
         frame.setVisible(true);
     }
@@ -32,10 +46,14 @@ public class HangmanViewController implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e){
-        JButton temp = (JButton) e.getSource();
-        String letter = temp.getText();
-        temp.setEnabled(false);
-        letterGuessed(letter.charAt(0));
+        if(e.getSource().getClass() == JButton.class){
+            JButton temp = (JButton) e.getSource();
+            String letter = temp.getText();
+            if(letter != null){
+                temp.setEnabled(false);
+                letterGuessed(letter.charAt(0));
+            }
+        }
     }
 }
 

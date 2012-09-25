@@ -25,6 +25,7 @@ public class LettersPanel extends JPanel{
         for(int i = 0; i < 26; i++){
             buttons[i] = new JButton(Character.toString((char)(i+65)));
             buttons[i].addActionListener(controller);
+            buttons[i].setFocusable(false);
         }
         initComponents();
     }

@@ -38,7 +38,7 @@ public class GuessPanel extends JPanel{
      */
     @Override
     public Dimension getPreferredSize(){
-        return new Dimension(320,50);
+        return new Dimension(320,75);
     }
     
     
