@@ -36,6 +36,8 @@ public class HangmanViewController implements ActionListener{
         
         frame.pack();
         frame.setVisible(true);
+        
+        
     }
     
     public void letterGuessed(char letter){
