@@ -6,7 +6,7 @@ public class WordGuesserClient {
 	private static Logger logger = Logger.getLogger(WordGuesserClient.class);
 
 	private static void log(WordGuesser wordGuesser) {
-		logger.debug("Disguised word:" + wordGuesser.getDisguisedWord() + ", isFound:" + wordGuesser.isFound() + ", isGameOver:" + wordGuesser.isGameOver()
+		logger.debug("Disguised word:" + wordGuesser.getDisguisedWord() + ", Letters guessed:" + wordGuesser.getLettersGuessed() + ", isFound:" + wordGuesser.isFound() + ", isGameOver:" + wordGuesser.isGameOver()
 				+ ", isWrongGuess:" + wordGuesser.isWrongGuess());
 	}
 

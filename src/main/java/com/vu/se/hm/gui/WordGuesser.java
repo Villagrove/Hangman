@@ -1,5 +1,8 @@
 package com.vu.se.hm.gui;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 
 public class WordGuesser {
@@ -11,10 +14,13 @@ public class WordGuesser {
 	private boolean gameOver;
 	private boolean wrongGuess;
 	public final int NUMBER_OF_ATTEMPTS = 6;
+	Set<Character> lettersGuessed = new HashSet<Character>();
 
 	/**
 	 * Creates an instance of Word to be used throughout the game
-	 * @param newWord The word to be guessed
+	 * 
+	 * @param newWord
+	 *            The word to be guessed
 	 */
 	public WordGuesser(String newWord) {
 		setSecretWord(newWord);
@@ -68,6 +74,7 @@ public class WordGuesser {
 
 	/**
 	 * indicates the game is over
+	 * 
 	 * @return true means game is over and false for continue to play
 	 */
 	public boolean isGameOver() {
@@ -80,6 +87,7 @@ public class WordGuesser {
 
 	/**
 	 * check to see if this guess was wrong
+	 * 
 	 * @return true for
 	 */
 	public boolean isWrongGuess() {
@@ -91,7 +99,17 @@ public class WordGuesser {
 	}
 
 	/**
+	 * already guessed list of letters
+	 * 
+	 * @return set of already guessed list of chars
+	 */
+	public Set<Character> getLettersGuessed() {
+		return lettersGuessed;
+	}
+
+	/**
 	 * matches the supplied character with secret word
+	 * 
 	 * @param character
 	 */
 	private void matchCharacter(char c) {
@@ -128,6 +146,7 @@ public class WordGuesser {
 
 	/**
 	 * this is the function to be called by client
+	 * 
 	 * @param guess
 	 * @return the word with guessed characters filled in and not guessed characters filled in with white spaces
 	 */
@@ -138,8 +157,17 @@ public class WordGuesser {
 			logger.debug("The game is already over. no more guesses allowed.");
 			return getDisguisedWord();
 		}
+		
+		if (lettersGuessed.contains(guess)) {
+			logger.warn("The letter was already guessed:" + guess);
+			return getDisguisedWord();
+		}
 
+		// match the character to the letter in secret word
 		this.matchCharacter(guess);
+
+		// update already guessed list of letters
+		lettersGuessed.add(guess);
 
 		logger.debug("Number of guesses so far: " + this.getGuessCount() + ", Number of misses so far: " + this.getMissCount());
 
