@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 
 /**
  * Hangman View Controller
- * Action Listener for Letters Panel
+ * Action Listener for Letters Panel, and Admin Panel
  * @author Dan Cannon
  */
 public class HangmanViewController implements ActionListener{
@@ -19,6 +19,7 @@ public class HangmanViewController implements ActionListener{
     private GuessPanel guess;
     private LettersPanel letters;
     private WordGuesser guesser;
+    private Boolean admin = false;
     
     public HangmanViewController(String word){
         JFrame frame = new JFrame("TMNT Hangman");
@@ -48,21 +49,26 @@ public class HangmanViewController implements ActionListener{
         frame.setVisible(true);
     }
     
+    public void guessLetter(char letter){
+        guesser.guess(letter);
+        letterGuessed(letter);
+    }
+    
     public void letterGuessed(char letter){
-        guess.setWord(guesser.guess(letter));
+        guess.setWord(guesser.getDisguisedWord());
         graphics.setWrongs(guesser.getMissCount());
+        letters.disableButton(letter);
     }
     
     @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource().getClass() == JButton.class){
-            JButton temp = (JButton) e.getSource();
-            String letter = temp.getText();
-            if(letter != null){
-                temp.setEnabled(false);
-                letterGuessed(letter.charAt(0));
+            String action = e.getActionCommand();
+            if(action != null){
+                if(action.length() == 1){
+                    letters.disableButton(action.charAt(0));
+                    guessLetter(action.charAt(0));
+                }
             }
-        }
     }
+    
 }
-
