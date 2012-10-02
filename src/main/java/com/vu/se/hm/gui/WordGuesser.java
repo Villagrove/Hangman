@@ -23,7 +23,7 @@ public class WordGuesser {
 	 *            The word to be guessed
 	 */
 	public WordGuesser(String newWord) {
-		setSecretWord(newWord);
+		setSecretWord(newWord.toUpperCase());
 	}
 
 	private void setSecretWord(String newWord) {

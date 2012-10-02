@@ -30,7 +30,7 @@ public class GuessPanel extends JPanel{
      */
     public void setWord(String word){
         this.word = word;
-        this.revalidate();
+        this.repaint();
     }
     
     /**

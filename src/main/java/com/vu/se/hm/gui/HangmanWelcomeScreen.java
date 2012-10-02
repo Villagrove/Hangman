@@ -6,7 +6,7 @@ import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
 import javax.swing.*;
-public class HangmanWelcomeScreen extends JFrame {
+public class HangmanWelcomeScreen extends JPanel {
 
 JPanel panel;
 JLabel welcome, credits;
@@ -15,7 +15,6 @@ String currentWord;
 Box titleBox,imageBox,creditBox,buttonBox;
 
 	public HangmanWelcomeScreen(){
-		panel = new JPanel();
 		
 		ButtonListener action = new ButtonListener();
 		
@@ -28,7 +27,7 @@ Box titleBox,imageBox,creditBox,buttonBox;
 		onePlayerButton.addActionListener(action);
 		twoPlayerButton.addActionListener(action);
 		
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		titleBox = new Box(BoxLayout.X_AXIS);
 		imageBox = new Box(BoxLayout.X_AXIS);
 		creditBox = new Box(BoxLayout.X_AXIS);
@@ -42,11 +41,11 @@ Box titleBox,imageBox,creditBox,buttonBox;
 		buttonBox.add(twoPlayerButton);
 
 		try{
-			BufferedImage myPicture = ImageIO.read(this.getClass().getResource("/resources/teenage-fun.png"));
+			BufferedImage myPicture = ImageIO.read(new File("C:\\hangman\\teenage-fun.jpg"));
 			JLabel picLabel = new JLabel(new ImageIcon( myPicture ));
 			imageBox.add(picLabel);
 			
-			myPicture = ImageIO.read(this.getClass().getResource("/resources/hangman.png"));
+			myPicture = ImageIO.read(new File("C:\\hangman\\hangman.png"));
 			picLabel = new JLabel(new ImageIcon( myPicture ));
 			imageBox.add(picLabel);
 			
@@ -57,18 +56,13 @@ Box titleBox,imageBox,creditBox,buttonBox;
 		
 		credits = new JLabel("Created by Team Teenage Mutant Ninja Turtles: Dan, Mike, Pal, and Mounika");
 		creditBox.add(credits);
-		panel.add(titleBox);
-		panel.add(Box.createRigidArea(new Dimension(0,25)));
-		panel.add(imageBox);
-		panel.add(Box.createRigidArea(new Dimension(0,15)));
-		panel.add(creditBox);
-		panel.add(Box.createRigidArea(new Dimension(0,50)));
-		panel.add(buttonBox);
-		
-		Container container = getContentPane();
-		container.add(panel);
-		
-		
+		this.add(titleBox);
+		this.add(Box.createRigidArea(new Dimension(0,25)));
+		this.add(imageBox);
+		this.add(Box.createRigidArea(new Dimension(0,15)));
+		this.add(creditBox);
+		this.add(Box.createRigidArea(new Dimension(0,50)));
+		this.add(buttonBox);
 	}
 	
 	public class ButtonListener implements ActionListener{

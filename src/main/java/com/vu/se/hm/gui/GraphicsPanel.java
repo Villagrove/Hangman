@@ -35,7 +35,7 @@ public class GraphicsPanel extends JPanel{
             wrongs = 0;
         }
         this.wrongs = wrongs;
-        this.revalidate();
+        this.repaint();
     }
     
 
@@ -56,12 +56,12 @@ public class GraphicsPanel extends JPanel{
         g.setColor(Color.RED);
         
         switch(wrongs){
-            case 6: g.fillOval(170, 40, 30, 30); // Head
-            case 5: g.drawLine(185, 70, 185, 130); // Body     
-            case 4: g.drawLine(185, 85, 165, 100); // Left Arm
-            case 3: g.drawLine(185, 85, 205, 100); // Right Arm
-            case 2: g.drawLine(185, 130, 165, 145); // Left Leg
-            case 1: g.drawLine(185, 130, 205, 145); // Right Leg
+            case 6: g.drawLine(185, 130, 205, 145); // Right Leg
+            case 5: g.drawLine(185, 130, 165, 145); // Left Leg     
+            case 4: g.drawLine(185, 85, 205, 100); // Right Arm
+            case 3: g.drawLine(185, 85, 165, 100); // Left Arm
+            case 2: g.drawLine(185, 70, 185, 130); // Body
+            case 1: g.fillOval(170, 40, 30, 30); // Head 
                     break;
             default: break;
         }

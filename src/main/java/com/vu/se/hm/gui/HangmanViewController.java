@@ -15,6 +15,11 @@ import javax.swing.JFrame;
  */
 public class HangmanViewController implements ActionListener{
     
+    private GraphicsPanel graphics;
+    private GuessPanel guess;
+    private LettersPanel letters;
+    private WordGuesser guesser;
+    
     public HangmanViewController(String word){
         JFrame frame = new JFrame("TMNT Hangman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,28 +27,30 @@ public class HangmanViewController implements ActionListener{
         frame.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
+        guesser = new WordGuesser(word);
+        
         c.gridx = 1;
         c.gridy = 0;
-        frame.add(new GraphicsPanel(), c);
+        graphics = new GraphicsPanel();
+        frame.add(graphics, c);
         
         c.gridx = 1;
         c.gridy = 1;
-        frame.add(new GuessPanel(word), c);
+        guess = new GuessPanel(guesser.getDisguisedWord());
+        frame.add(guess, c);
         
         c.gridx = 1;
         c.gridy = 2;
-        frame.add(new LettersPanel(this), c);
+        letters = new LettersPanel(this);
+        frame.add(letters, c);
         
         frame.pack();
         frame.setVisible(true);
-        
-        
     }
     
     public void letterGuessed(char letter){
-        // Send letter to model to see if correct
-        // If correct send updated word to GuessPanel(Spaces for unguessed letters)
-        // If incorrect increase the number of wrong guess and send to Graphics panel
+        guess.setWord(guesser.guess(letter));
+        graphics.setWrongs(guesser.getMissCount());
     }
     
     @Override
