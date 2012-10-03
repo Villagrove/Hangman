@@ -42,8 +42,8 @@ public class LettersPanel extends JPanel{
     }
     
     public void disableButton(char letter){
-        int i = ((int)letter) + 65;
-        if(i >= 65 || i <= 91){
+        int i = ((int)letter) - 65;
+        if(i >= 65 && i <= 91){
             buttons[i].setEnabled(false);
         }
     }
