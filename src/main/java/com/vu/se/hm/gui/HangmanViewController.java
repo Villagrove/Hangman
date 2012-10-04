@@ -21,13 +21,14 @@ public class HangmanViewController implements ActionListener{
     private WordGuesser guesser;
     private Boolean isAdmin = false;
     
-    public HangmanViewController(String word){
+    public HangmanViewController(String word, boolean gameAdmin){
         JFrame frame = new JFrame("TMNT Hangman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(640,440));
         frame.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
+        this.isAdmin = gameAdmin;
         guesser = new WordGuesser(word);
         
         c.gridx = 1;
