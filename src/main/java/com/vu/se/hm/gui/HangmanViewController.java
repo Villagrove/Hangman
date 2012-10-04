@@ -5,7 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 /**
@@ -18,8 +17,9 @@ public class HangmanViewController implements ActionListener{
     private GraphicsPanel graphics;
     private GuessPanel guess;
     private LettersPanel letters;
+    private AdminPanel admin;
     private WordGuesser guesser;
-    private Boolean admin = false;
+    private Boolean isAdmin = false;
     
     public HangmanViewController(String word){
         JFrame frame = new JFrame("TMNT Hangman");
@@ -42,8 +42,13 @@ public class HangmanViewController implements ActionListener{
         
         c.gridx = 1;
         c.gridy = 2;
-        letters = new LettersPanel(this);
-        frame.add(letters, c);
+        if(isAdmin){
+            admin = new AdminPanel(this);
+            frame.add(admin, c);  
+        } else {
+            letters = new LettersPanel(this);
+            frame.add(letters, c);
+        }
         
         frame.pack();
         frame.setVisible(true);
@@ -57,7 +62,11 @@ public class HangmanViewController implements ActionListener{
     public void letterGuessed(char letter){
         guess.setWord(guesser.getDisguisedWord());
         graphics.setWrongs(guesser.getMissCount());
-        letters.disableButton(letter);
+        if(isAdmin){
+            admin.setLetters(guesser.getLettersGuessed().toString());
+        } else {
+            letters.disableButton(letter);
+        }      
     }
     
     @Override
