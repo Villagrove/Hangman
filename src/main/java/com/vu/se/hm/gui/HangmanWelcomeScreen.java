@@ -11,8 +11,12 @@ public class HangmanWelcomeScreen extends JPanel {
 JPanel panel;
 JLabel welcome, credits;
 JButton onePlayerButton, twoPlayerButton;
-String currentWord;
+String currentWord, hostIP;
+String [] IPs;
+JTextField [] tfields;
 Box titleBox,imageBox,creditBox,buttonBox;
+int numPlayers;
+JFrame popUpFrame;
 
 	public HangmanWelcomeScreen(){
 		
@@ -21,8 +25,8 @@ Box titleBox,imageBox,creditBox,buttonBox;
 		welcome = new JLabel("Welcome to Hangman!");
 		welcome.setFont(new Font("Courier New", Font.CENTER_BASELINE, 20));
 		
-		onePlayerButton = new JButton("Start a 1-player game");
-		twoPlayerButton = new JButton("Start a 2-player game");
+		onePlayerButton = new JButton("Create a game");
+		twoPlayerButton = new JButton("Join a game");
 		
 		onePlayerButton.addActionListener(action);
 		twoPlayerButton.addActionListener(action);
@@ -64,19 +68,138 @@ Box titleBox,imageBox,creditBox,buttonBox;
 		this.add(Box.createRigidArea(new Dimension(0,50)));
 		this.add(buttonBox);
 	}
+	public void createGame1(){
+		final ButtonGroup buttonGroup = new ButtonGroup();
+		JPanel oPane = new JPanel();
 	
+		JRadioButton twoButton = new JRadioButton("2-Player", true);
+		JRadioButton threeButton = new JRadioButton("3-Player", false);
+		JRadioButton fourButton = new JRadioButton("4-Player", false);
+	
+		twoButton.setActionCommand("2p");
+		threeButton.setActionCommand("3p");
+		fourButton.setActionCommand("4p");
+	
+		buttonGroup.add(twoButton);
+		buttonGroup.add(threeButton);
+		buttonGroup.add(fourButton);
+		JButton nextButton = new JButton("Next");
+		nextButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String command = buttonGroup.getSelection().getActionCommand();
+				if (command == "2p"){numPlayers = 2;}
+				if (command == "3p"){numPlayers = 3;}
+				if (command == "4p"){numPlayers = 4;}
+				createGame2();
+			}
+			});
+		oPane.setLayout(new BoxLayout(oPane,BoxLayout.Y_AXIS));
+		oPane.add(twoButton);
+		oPane.add(threeButton);
+		oPane.add(fourButton);
+		oPane.add(nextButton);
+		popUpFrame = new JFrame();
+		popUpFrame.setSize(250,250);
+		popUpFrame.setTitle("Create A Game");
+		popUpFrame.setLocationRelativeTo(this);
+		popUpFrame.add(oPane);
+		popUpFrame.setVisible(true);
+	
+	
+	}
+	public void createGame2(){
+		popUpFrame.setVisible(false);
+		JTextField thisField;
+		Box tempBox;
+		JLabel label1 = new JLabel("Enter the IPs of the other players");
+		JLabel label2 = new JLabel("  (xxx.xxx.xxx.xxx format):");
+		JPanel iPane = new JPanel();
+		iPane.setLayout(new BoxLayout(iPane,BoxLayout.Y_AXIS));
+		
+		iPane.add(label1);
+		iPane.add(label2);
+		iPane.add(Box.createRigidArea(new Dimension(0,20)));
+		
+		tfields = new JTextField[numPlayers-1];
+		for(int i=0;i<numPlayers-1;i++){
+			thisField = new JTextField();
+			thisField.setMaximumSize(new Dimension(300,25));
+			tfields[i] = thisField;
+			tempBox = new Box(BoxLayout.X_AXIS);
+			tempBox.add(new JLabel("Player " + (i+2) + ":"));
+			tempBox.add(Box.createRigidArea(new Dimension(15,0)));
+			tempBox.add(tfields[i]);
+			iPane.add(tempBox);
+			iPane.add(Box.createRigidArea(new Dimension(0,20)));
+		}
+		
+		JButton nextButton = new JButton("Next");
+		nextButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				IPs = new String [numPlayers-1];
+				for(int i=0;i<numPlayers-1;i++){
+					IPs[i] = tfields[i].getText();
+				}
+				createGame3();
+			}
+			});
+		
+		iPane.add(nextButton);
+		popUpFrame = new JFrame();
+		popUpFrame.setSize(250, 250);
+		popUpFrame.add(iPane);
+		popUpFrame.setTitle("Create A Game");
+		popUpFrame.setLocationRelativeTo(this);
+		popUpFrame.setVisible(true);
+		
+	}
+	
+	public void createGame3(){
+		popUpFrame.setVisible(false);
+		popUpFrame = null;
+		boolean validPhrase = false;
+		while (!validPhrase){
+			currentWord = JOptionPane.showInputDialog(this, "Please enter the word or phrase to be guessed (only letters and spaces are allowed):",
+				"Word Entry", JOptionPane.PLAIN_MESSAGE);
+			currentWord = currentWord.toUpperCase();
+			if(!(validPhrase = verifyPhrase(currentWord))){
+				JOptionPane.showMessageDialog(this,"Phrase is invalid (only letters and spaces please!)", "Invalid word",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+		
+		/* This is when the game starts
+		 *    -Pass the phrase, number of players, and their IPs to the game manager
+		 */
+		
+	}
+	public void joinGame(){}
 	public class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			if(e.getActionCommand().equals("Start a 1-player game")){
-				JOptionPane.showMessageDialog(null, "Sorry, this game mode is not currently supported", "Error",
-						JOptionPane.PLAIN_MESSAGE);
+			if(e.getActionCommand().equals("Create a game")){
+				createGame1();
 			}
 			
-			if(e.getActionCommand().equals("Start a 2-player game")){
-				currentWord = JOptionPane.showInputDialog(null, "Please enter the word to be guessed:", "Word Entry",
+			if(e.getActionCommand().equals("Join a game")){
+				hostIP = JOptionPane.showInputDialog(null, "Please enter the host's IP (xxx.xxx.xxx.xxx format):", "Word Entry",
 						JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 	}
-
+	
+	public boolean verifyPhrase(String phrase){
+		char thisChar;
+		if(phrase == null || phrase.equals("")){
+			return false;
+		}
+		currentWord.toUpperCase();
+		for(int i=0;i<currentWord.length();i++){
+			thisChar = currentWord.charAt(i);
+			if(!(Character.isLetter(thisChar) || Character.isSpaceChar(thisChar))){
+				return false;
+			}
+		}
+		return true;
+	}
 }
