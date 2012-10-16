@@ -1,6 +1,9 @@
-package com.vu.se.hm.gui;
+package com.vu.se.hm.service.impl;
 
 import org.apache.log4j.Logger;
+
+import com.vu.se.hm.service.WordGuesser;
+
 
 public class WordGuesserClient {
 	private static Logger logger = Logger.getLogger(WordGuesserClient.class);
@@ -12,7 +15,7 @@ public class WordGuesserClient {
 
 	public static void main(String[] args) {
 
-		WordGuesser wordGuesser = new WordGuesser("pollan");
+		WordGuesser wordGuesser = new WordGuesserImpl("pollan");
 		String disguised = wordGuesser.guess('n');
 		log(wordGuesser);
 
