@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-public class WordGuesser {
+public class WordGuesser implements Guesser{
 	private Logger logger = Logger.getLogger(WordGuesser.class);
 
 	private String secretWord;

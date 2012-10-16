@@ -12,16 +12,16 @@ import javax.swing.JFrame;
  * Action Listener for Letters Panel, and Admin Panel
  * @author Dan Cannon
  */
-public class HangmanViewController implements ActionListener{
+public class HangmanViewController implements ActionListener, HangmanEventListener{
     
     private GraphicsPanel graphics;
     private GuessPanel guess;
     private LettersPanel letters;
     private AdminPanel admin;
-    private WordGuesser guesser;
+    private Guesser guesser;
     private Boolean isAdmin = false;
     
-    public HangmanViewController(String word, boolean gameAdmin){
+    public HangmanViewController(Guesser guesser, boolean gameAdmin){
         JFrame frame = new JFrame("TMNT Hangman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(640,440));
@@ -29,7 +29,7 @@ public class HangmanViewController implements ActionListener{
         GridBagConstraints c = new GridBagConstraints();
         
         this.isAdmin = gameAdmin;
-        guesser = new WordGuesser(word);
+        this.guesser = guesser;
         
         c.gridx = 1;
         c.gridy = 0;
@@ -57,10 +57,9 @@ public class HangmanViewController implements ActionListener{
     
     public void guessLetter(char letter){
         guesser.guess(letter);
-        letterGuessed(letter);
     }
     
-    public void letterGuessed(char letter){
+    public void update(char letter){
         guess.setWord(guesser.getDisguisedWord());
         graphics.setWrongs(guesser.getMissCount());
         if(isAdmin){
@@ -79,6 +78,11 @@ public class HangmanViewController implements ActionListener{
                     guessLetter(action.charAt(0));
                 }
             }
+    }
+
+    @Override
+    public void handleHangmanEvent(HangmanEvent e) {
+        update(e.letter);
     }
     
 }
