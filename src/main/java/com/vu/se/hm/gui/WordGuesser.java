@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import com.vu.se.hm.util.WordValidator;
+
 public class WordGuesser {
 	private Logger logger = Logger.getLogger(WordGuesser.class);
 
@@ -15,6 +17,7 @@ public class WordGuesser {
 	private boolean wrongGuess;
 	public final int NUMBER_OF_ATTEMPTS = 6;
 	Set<Character> lettersGuessed = new HashSet<Character>();
+	private WordValidator wordValidator;
 
 	/**
 	 * Creates an instance of Word to be used throughout the game
@@ -24,6 +27,7 @@ public class WordGuesser {
 	 */
 	public WordGuesser(String newWord) {
 		setSecretWord(newWord.toUpperCase());
+		wordValidator = new WordValidator();
 	}
 
 	private void setSecretWord(String newWord) {
@@ -152,12 +156,12 @@ public class WordGuesser {
 	 */
 	public String guess(char guess) {
 		// logger.debug("DisguisedWord before guess: " + this.getDisguisedWord());
-
+		guess = Character.toUpperCase(guess);
 		if (this.isGameOver()) {
 			logger.debug("The game is already over. no more guesses allowed.");
 			return getDisguisedWord();
 		}
-		
+
 		if (lettersGuessed.contains(guess)) {
 			logger.warn("The letter was already guessed:" + guess);
 			return getDisguisedWord();
