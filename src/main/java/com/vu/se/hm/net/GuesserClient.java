@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vu.se.hm.gui;
+package com.vu.se.hm.net;
 
+import com.vu.se.hm.service.WordGuesser;
+import com.vu.se.hm.gui.HangmanEvent;
+import com.vu.se.hm.gui.HangmanEventListener;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -11,7 +14,7 @@ import java.util.*;
 /**
  * @author Dan
  */
-public class GuesserClient implements Guesser, Runnable{
+public class GuesserClient implements WordGuesser, Runnable{
 
     private List listeners;
     private volatile int missCount;

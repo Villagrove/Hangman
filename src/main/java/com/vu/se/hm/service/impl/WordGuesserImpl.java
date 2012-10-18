@@ -1,12 +1,13 @@
-package com.vu.se.hm.gui;
+package com.vu.se.hm.service.impl;
 
+import com.vu.se.hm.service.WordGuesser;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-public class WordGuesser implements Guesser{
-	private Logger logger = Logger.getLogger(WordGuesser.class);
+public class WordGuesserImpl implements WordGuesser{
+	private Logger logger = Logger.getLogger(WordGuesserImpl.class);
 
 	private String secretWord;
 	private String disguisedWord = "";
@@ -22,7 +23,7 @@ public class WordGuesser implements Guesser{
 	 * @param newWord
 	 *            The word to be guessed
 	 */
-	public WordGuesser(String newWord) {
+	public WordGuesserImpl(String newWord) {
 		setSecretWord(newWord.toUpperCase());
 	}
 

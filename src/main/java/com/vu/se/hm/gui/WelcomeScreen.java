@@ -6,7 +6,7 @@ import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
 import javax.swing.*;
-public class HangmanWelcomeScreen extends JPanel {
+public class WelcomeScreen extends JPanel {
 
 JPanel panel;
 JLabel welcome, credits;
@@ -18,7 +18,7 @@ Box titleBox,imageBox,creditBox,buttonBox;
 int numPlayers;
 JFrame popUpFrame;
 
-	public HangmanWelcomeScreen(){
+	public WelcomeScreen(){
 		
 		ButtonListener action = new ButtonListener();
 		
@@ -172,7 +172,7 @@ JFrame popUpFrame;
 		/* This is when the game starts
 		 *    -Pass the phrase, number of players, and their IPs to the game manager
 		 */
-                HangmanViewController game = new HangmanViewController(null, false); //Should be true since this is admin. False for test
+                ViewController game = new ViewController(null, false); //Should be true since this is admin. False for test
 		
 	}
 	public void joinGame(){}

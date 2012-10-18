@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vu.se.hm.gui;
+package com.vu.se.hm.service;
 
 import java.util.Set;
 
@@ -10,7 +10,7 @@ import java.util.Set;
  *
  * @author Dan
  */
-public interface Guesser {
+public interface WordGuesser {
     public String guess(char letter);
     public String getDisguisedWord();
     public int getMissCount();

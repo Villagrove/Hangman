@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vu.se.hm.gui;
+package com.vu.se.hm.net;
 
+import com.vu.se.hm.service.WordGuesser;
 import java.io.*;
 import java.net.*;
 
@@ -15,9 +16,9 @@ public class GuesserServer implements Runnable{
     private ServerSocket server;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private volatile Guesser guesser;
+    private volatile WordGuesser guesser;
     
-    public GuesserServer(Guesser guesser){
+    public GuesserServer(WordGuesser guesser){
         this.guesser = guesser;
         try{
             server = new ServerSocket(1234);

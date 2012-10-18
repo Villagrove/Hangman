@@ -1,18 +1,18 @@
-package com.vu.se.hm.gui;
+package com.vu.se.hm.service.impl;
 
 import org.apache.log4j.Logger;
 
 public class WordGuesserClient {
 	private static Logger logger = Logger.getLogger(WordGuesserClient.class);
 
-	private static void log(WordGuesser wordGuesser) {
+	private static void log(WordGuesserImpl wordGuesser) {
 		logger.debug("Disguised word:" + wordGuesser.getDisguisedWord() + ", Letters guessed:" + wordGuesser.getLettersGuessed() + ", isFound:" + wordGuesser.isFound() + ", isGameOver:" + wordGuesser.isGameOver()
 				+ ", isWrongGuess:" + wordGuesser.isWrongGuess());
 	}
 
 	public static void main(String[] args) {
 
-		WordGuesser wordGuesser = new WordGuesser("pollan");
+		WordGuesserImpl wordGuesser = new WordGuesserImpl("pollan");
 		String disguised = wordGuesser.guess('n');
 		log(wordGuesser);
 

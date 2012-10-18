@@ -1,7 +1,8 @@
 package com.vu.se.hm.gui;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import com.vu.se.hm.net.*;
+import com.vu.se.hm.service.impl.WordGuesserImpl;
+
 
 public class HangmanStarter {
 
@@ -14,11 +15,11 @@ public class HangmanStarter {
                 frame.setVisible(true);
                 */
             
-                (new Thread(new GuesserServer(new WordGuesser("Test")))).start();
+                (new Thread(new GuesserServer(new WordGuesserImpl("Test")))).start();
                 GuesserClient client = new GuesserClient();               
                 client.connect("127.0.0.1", 1234);
                 (new Thread(client)).start();
-		HangmanViewController hangmanViewController = new HangmanViewController(client, false);
+		ViewController hangmanViewController = new ViewController(client, false);
                 client.addEventListener(hangmanViewController);
 	}
 

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vu.se.hm.gui;
+package com.vu.se.hm.net;
 
 import java.io.Serializable;
 /**
