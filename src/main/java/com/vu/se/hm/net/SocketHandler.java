@@ -13,18 +13,22 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Dan Cannon
  */
 public class SocketHandler implements Runnable{
-    private ServerSocket server;
+    private static ServerSocket server;
+    private static int maxplayers = 4;
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private boolean connected;
     private volatile ConcurrentLinkedQueue<HangmanPacket> queue;
     
+    
     public SocketHandler(ConcurrentLinkedQueue<HangmanPacket> queue, int port){
         try{
             this.queue = queue;
             connected = false;
-            server = new ServerSocket(port, 4);
+            if(server == null){
+                server = new ServerSocket(port, maxplayers);
+            }
         } catch (IOException e){
             System.out.println(e);
         }
