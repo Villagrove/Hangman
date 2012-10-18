@@ -79,6 +79,7 @@ public class GuesserClient implements WordGuesser, Runnable{
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             connected = true;
+            System.out.println("Connected at port: " + port);
         } catch (IOException e){
             System.out.println("Could not connect to Host:" + e);
         }

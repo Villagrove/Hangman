@@ -4,51 +4,56 @@
  */
 package com.vu.se.hm.net;
 
-import com.vu.se.hm.service.WordGuesser;
-import java.io.*;
-import java.net.*;
+import com.vu.se.hm.service.*;
+import com.vu.se.hm.service.impl.WordGuesserImpl;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  *
  * @author Dan
  */
 public class GuesserServer implements Runnable{
-    private ServerSocket server;
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
-    private volatile WordGuesser guesser;
+    private ConcurrentLinkedQueue queue;
+    private WordGuesser guesser;
+    private List players;
+    private boolean isOver;
+    private int port = 1234;
     
-    public GuesserServer(WordGuesser guesser){
-        this.guesser = guesser;
-        try{
-            server = new ServerSocket(1234);
-        } catch (IOException e){
-            System.out.println(e);
+    public GuesserServer(String word){
+        this.guesser = new WordGuesserImpl(word);
+        this.queue = new ConcurrentLinkedQueue();
+        this.players = new ArrayList();
+        isOver = false;
+    }
+    
+    public void addPlayer(){
+        SocketHandler temp = new SocketHandler(queue, port);
+        players.add(temp);
+        (new Thread(temp)).start();
+        port++;
+    }
+    
+    public void sendData(HangmanPacket packet){
+        packet.disguisedWord = guesser.getDisguisedWord();
+        packet.missCount = guesser.getMissCount();
+        Iterator i = players.iterator();
+        while(i.hasNext()){
+            ((SocketHandler)i.next()).sendData(packet);
         }
     }
     
+    @Override
     public void run(){
-        try{
-            System.out.println("Waiting for connections");
-            Socket temp = server.accept();
-            out = new ObjectOutputStream(temp.getOutputStream());
-            in  = new ObjectInputStream(temp.getInputStream());
-            HangmanPacket packet;
-            while(guesser.getMissCount()<6){
-                packet = (HangmanPacket)in.readObject();
+        HangmanPacket packet;
+        while(!isOver){
+            if(!queue.isEmpty()){
+                packet = (HangmanPacket)queue.remove();
                 guesser.guess(packet.letter);
-                packet.disguisedWord = guesser.getDisguisedWord();
-                packet.missCount = guesser.getMissCount();
-                out.writeObject(packet);
+                sendData(packet);
             }
-            out.close();
-            in.close();
-            temp.close();
-            server.close();
-        } catch (IOException e){
-            System.out.println(e);
-        } catch (ClassNotFoundException e){
-            System.out.println(e);
-        } 
+        }
     }
 }
