@@ -1,14 +1,15 @@
-package com.vu.se.hm.gui;
+package com.vu.se.hm.service.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import com.vu.se.hm.service.WordGuesser;
 import com.vu.se.hm.util.WordValidator;
 
-public class WordGuesser {
-	private Logger logger = Logger.getLogger(WordGuesser.class);
+public class WordGuesserImpl implements WordGuesser {
+	private Logger logger = Logger.getLogger(WordGuesserImpl.class);
 
 	private String secretWord;
 	private String disguisedWord = "";
@@ -25,7 +26,7 @@ public class WordGuesser {
 	 * @param newWord
 	 *            The word to be guessed
 	 */
-	public WordGuesser(String newWord) {
+	public WordGuesserImpl(String newWord) {
 		setSecretWord(newWord.toUpperCase());
 		wordValidator = new WordValidator();
 	}
@@ -44,43 +45,50 @@ public class WordGuesser {
 
 	}
 
-	/**
-	 * @return the word to be guessed
+	/* (non-Javadoc)
+	 * @see com.vu.se.hm.service.impl.WordGuesser#getSecretWord()
 	 */
+	@Override
 	public String getSecretWord() {
 		return secretWord;
 	}
 
-	/**
-	 * @return true if the word is successfully guessed and false otherwise
+	/* (non-Javadoc)
+	 * @see com.vu.se.hm.service.impl.WordGuesser#isFound()
 	 */
+	@Override
 	public boolean isFound() {
 		return secretWord.equalsIgnoreCase(disguisedWord);
 	}
 
-	/**
-	 * @return the word with guessed characters filled in and not guessed characters filled in with white spaces
+	/* (non-Javadoc)
+	 * @see com.vu.se.hm.service.impl.WordGuesser#getDisguisedWord()
 	 */
+	@Override
 	public String getDisguisedWord() {
 		return disguisedWord;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vu.se.hm.service.impl.WordGuesser#getGuessCount()
+	 */
+	@Override
 	public int getGuessCount() {
 		return guessCount;
 	}
 
-	/**
-	 * @return number of missed counts
+	/* (non-Javadoc)
+	 * @see com.vu.se.hm.service.impl.WordGuesser#getMissCount()
 	 */
+	@Override
 	public int getMissCount() {
 		return missCount;
 	}
 
-	/**
-	 * indicates the game is over
-	 * 
-	 * @return true means game is over and false for continue to play
+	/* (non-Javadoc)
+	 * @see com.vu.se.hm.service.impl.WordGuesser#isGameOver()
 	 */
+	@Override
 	public boolean isGameOver() {
 		return gameOver;
 	}
@@ -89,11 +97,10 @@ public class WordGuesser {
 		this.gameOver = gameOver;
 	}
 
-	/**
-	 * check to see if this guess was wrong
-	 * 
-	 * @return true for
+	/* (non-Javadoc)
+	 * @see com.vu.se.hm.service.impl.WordGuesser#isWrongGuess()
 	 */
+	@Override
 	public boolean isWrongGuess() {
 		return wrongGuess;
 	}
@@ -102,11 +109,10 @@ public class WordGuesser {
 		this.wrongGuess = wrongGuess;
 	}
 
-	/**
-	 * already guessed list of letters
-	 * 
-	 * @return set of already guessed list of chars
+	/* (non-Javadoc)
+	 * @see com.vu.se.hm.service.impl.WordGuesser#getLettersGuessed()
 	 */
+	@Override
 	public Set<Character> getLettersGuessed() {
 		return lettersGuessed;
 	}
@@ -148,12 +154,10 @@ public class WordGuesser {
 
 	}
 
-	/**
-	 * this is the function to be called by client
-	 * 
-	 * @param guess
-	 * @return the word with guessed characters filled in and not guessed characters filled in with white spaces
+	/* (non-Javadoc)
+	 * @see com.vu.se.hm.service.impl.WordGuesser#guess(char)
 	 */
+	@Override
 	public String guess(char guess) {
 		// logger.debug("DisguisedWord before guess: " + this.getDisguisedWord());
 		guess = Character.toUpperCase(guess);

@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
+import com.vu.se.hm.service.WordGuesser;
+import com.vu.se.hm.service.impl.WordGuesserImpl;
+
 /**
  * Hangman View Controller
  * Action Listener for Letters Panel, and Admin Panel
@@ -29,7 +32,7 @@ public class HangmanViewController implements ActionListener{
         GridBagConstraints c = new GridBagConstraints();
         
         this.isAdmin = gameAdmin;
-        guesser = new WordGuesser(word);
+        guesser = new WordGuesserImpl(word);
         
         c.gridx = 1;
         c.gridy = 0;
