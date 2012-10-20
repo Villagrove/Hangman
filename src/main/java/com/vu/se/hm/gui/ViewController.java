@@ -15,7 +15,7 @@ import com.vu.se.hm.service.impl.WordGuesserImpl;
  * Action Listener for Letters Panel, and Admin Panel
  * @author Dan Cannon
  */
-public class HangmanViewController implements ActionListener{
+public class ViewController implements ActionListener{
     
     private GraphicsPanel graphics;
     private GuessPanel guess;
@@ -24,7 +24,7 @@ public class HangmanViewController implements ActionListener{
     private WordGuesser guesser;
     private Boolean isAdmin = false;
     
-    public HangmanViewController(String word, boolean gameAdmin){
+    public ViewController(String word, boolean gameAdmin){
         JFrame frame = new JFrame("TMNT Hangman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(640,440));

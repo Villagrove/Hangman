@@ -8,7 +8,7 @@ import javax.imageio.*;
 import java.io.*;
 import javax.swing.*;
 
-public class HangmanWelcomeScreen extends JPanel {
+public class WelcomeScreen extends JPanel {
 
 JPanel panel;
 JLabel welcome, credits;
@@ -20,7 +20,7 @@ Box titleBox,imageBox,creditBox,buttonBox;
 int numPlayers;
 JFrame popUpFrame;
 WordValidator validator;
-	public HangmanWelcomeScreen(){
+	public WelcomeScreen(){
 		
 		validator = new WordValidator();
 		
@@ -179,7 +179,7 @@ WordValidator validator;
 		/* This is when the game starts
 		 *    -Pass the phrase, number of players, and their IPs to the game manager
 		 */
-                HangmanViewController game = new HangmanViewController(currentWord, false); //Should be true since this is admin. False for test
+                ViewController game = new ViewController(currentWord, false); //Should be true since this is admin. False for test
 		
 	}
 	public void joinGame(){}
