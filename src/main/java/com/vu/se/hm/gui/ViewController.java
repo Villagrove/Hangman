@@ -1,5 +1,6 @@
 package com.vu.se.hm.gui;
 
+import com.vu.se.hm.service.WordGuesser;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,15 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
-import com.vu.se.hm.service.WordGuesser;
-import com.vu.se.hm.service.impl.WordGuesserImpl;
-
 /**
  * Hangman View Controller
- * Action Listener for Letters Panel, and Admin Panel
+ * Action Listener HangmanEventListener
  * @author Dan Cannon
  */
-public class ViewController implements ActionListener{
+public class ViewController implements ActionListener, HangmanEventListener{
     
     private GraphicsPanel graphics;
     private GuessPanel guess;
@@ -24,7 +22,7 @@ public class ViewController implements ActionListener{
     private WordGuesser guesser;
     private Boolean isAdmin = false;
     
-    public ViewController(String word, boolean gameAdmin){
+    public ViewController(WordGuesser guesser, boolean gameAdmin){
         JFrame frame = new JFrame("TMNT Hangman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(640,440));
@@ -32,7 +30,7 @@ public class ViewController implements ActionListener{
         GridBagConstraints c = new GridBagConstraints();
         
         this.isAdmin = gameAdmin;
-        guesser = new WordGuesserImpl(word);
+        this.guesser = guesser;
         
         c.gridx = 1;
         c.gridy = 0;
@@ -60,10 +58,9 @@ public class ViewController implements ActionListener{
     
     public void guessLetter(char letter){
         guesser.guess(letter);
-        letterGuessed(letter);
     }
     
-    public void letterGuessed(char letter){
+    public void update(char letter){
         guess.setWord(guesser.getDisguisedWord());
         graphics.setWrongs(guesser.getMissCount());
         if(isAdmin){
@@ -82,6 +79,11 @@ public class ViewController implements ActionListener{
                     guessLetter(action.charAt(0));
                 }
             }
+    }
+
+    @Override
+    public void handleHangmanEvent(HangmanEvent e) {
+        update(e.letter);
     }
     
 }
