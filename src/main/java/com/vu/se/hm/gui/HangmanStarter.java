@@ -17,6 +17,8 @@ public class HangmanStarter {
                 server.addPlayer();
                 server.addPlayer();
                 (new Thread(server)).start();
+                ViewController serverViewController = new ViewController(server, true);
+                server.addEventListener(serverViewController);
                 
                 GuesserClient client = new GuesserClient();               
                 client.connect("127.0.0.1", 1234);
