@@ -98,4 +98,29 @@ public class GuesserServer implements WordGuesser, Runnable{
             ((HangmanEventListener) i.next()).handleHangmanEvent(event);
         }
     }
+
+    @Override
+    public String getSecretWord() {
+            return guesser.getSecretWord();
+    }
+
+    @Override
+    public boolean isFound() {
+        return guesser.isFound();
+    }
+
+    @Override
+    public int getGuessCount() {
+        return guesser.getGuessCount();
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return guesser.isGameOver();
+    }
+
+    @Override
+    public boolean isWrongGuess() {
+        return guesser.isWrongGuess();
+    }
 }

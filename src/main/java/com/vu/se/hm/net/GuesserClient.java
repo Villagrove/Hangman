@@ -124,4 +124,29 @@ public class GuesserClient implements WordGuesser, Runnable{
             System.out.println(e);
         }
     }
+
+    @Override
+    public String getSecretWord() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isFound() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int getGuessCount() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isGameOver() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isWrongGuess() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

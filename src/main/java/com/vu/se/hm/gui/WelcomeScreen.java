@@ -179,7 +179,6 @@ WordValidator validator;
 		/* This is when the game starts
 		 *    -Pass the phrase, number of players, and their IPs to the game manager
 		 */
-                ViewController game = new ViewController(currentWord, false); //Should be true since this is admin. False for test
 		
 	}
 	public void joinGame(){}
