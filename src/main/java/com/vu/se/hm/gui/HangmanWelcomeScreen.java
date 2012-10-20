@@ -17,14 +17,16 @@ JTextField [] tfields;
 Box titleBox,imageBox,creditBox,buttonBox;
 int numPlayers;
 JFrame popUpFrame;
-
+WordValidator validator;
 	public HangmanWelcomeScreen(){
+		
+		validator = new WordValidator();
 		
 		ButtonListener action = new ButtonListener();
 		
+		
 		welcome = new JLabel("Welcome to Hangman!");
 		welcome.setFont(new Font("Courier New", Font.CENTER_BASELINE, 20));
-		
 		onePlayerButton = new JButton("Create a game");
 		twoPlayerButton = new JButton("Join a game");
 		
@@ -107,6 +109,7 @@ JFrame popUpFrame;
 	
 	
 	}
+	/*
 	public void createGame2(){
 		popUpFrame.setVisible(false);
 		JTextField thisField;
@@ -153,8 +156,8 @@ JFrame popUpFrame;
 		popUpFrame.setVisible(true);
 		
 	}
-	
-	public void createGame3(){
+	*/
+	public void createGame2(){
 		popUpFrame.setVisible(false);
 		popUpFrame = null;
 		boolean validPhrase = false;
@@ -162,7 +165,9 @@ JFrame popUpFrame;
 			currentWord = JOptionPane.showInputDialog(this, "Please enter the word or phrase to be guessed (only letters and spaces are allowed):",
 				"Word Entry", JOptionPane.PLAIN_MESSAGE);
 			currentWord = currentWord.toUpperCase();
-			if(!(validPhrase = verifyPhrase(currentWord))){
+			validPhrase = verifyPhrase(currentWord);
+			//validPhrase = validator.isValidPhrase(currentWord);
+			if(!validPhrase){
 				JOptionPane.showMessageDialog(this,"Phrase is invalid (only letters and spaces please!)", "Invalid word",
 						JOptionPane.ERROR_MESSAGE);
 			}
