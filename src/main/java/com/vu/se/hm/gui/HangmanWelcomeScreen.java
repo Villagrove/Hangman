@@ -1,11 +1,13 @@
 package com.vu.se.hm.gui;
 
+import com.vu.se.hm.util.WordValidator;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
 import javax.swing.*;
+
 public class HangmanWelcomeScreen extends JPanel {
 
 JPanel panel;
