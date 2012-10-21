@@ -2,6 +2,7 @@ package com.vu.se.hm.util;
 
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 public class WordValidator {
@@ -9,11 +10,19 @@ public class WordValidator {
 	private static Logger logger = Logger.getLogger(WordValidator.class);
 
 	public boolean isValidChar(char guess) {
-		return Pattern.matches("[a-zA-Z]", String.valueOf(guess));
+		boolean isValid = false;
+		if (guess != ' ') {
+			isValid = Pattern.matches("[a-zA-Z]", String.valueOf(guess));
+		}
+		return isValid;
 	}
 
 	public boolean isValidString(String guess) {
-		return Pattern.matches("[a-zA-Z]+", guess);
+		boolean isValid = false;
+		if (StringUtils.isNotBlank(guess)) {
+			isValid = Pattern.matches("[a-zA-Z]+", guess);
+		}
+		return isValid;
 	}
 
 	/**
