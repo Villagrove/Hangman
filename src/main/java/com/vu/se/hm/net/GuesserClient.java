@@ -86,13 +86,15 @@ public class GuesserClient implements WordGuesser, Runnable{
     }
     
     public void close(){
-        try{
-            out.close();
-            in.close();
-            socket.close();
-            connected = false;
-        } catch (IOException e){
-            System.out.println(e);
+        if(connected){
+            try{
+                out.close();
+                in.close();
+                socket.close();
+                connected = false;
+            } catch (IOException e){
+                System.out.println(e);
+            }
         }
     }
     
@@ -148,5 +150,15 @@ public class GuesserClient implements WordGuesser, Runnable{
     @Override
     public boolean isWrongGuess() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public boolean isConnected(){
+        return connected;
+    }
+    
+    @Override
+    public void finalize() throws Throwable{
+        close();
+        super.finalize();
     }
 }

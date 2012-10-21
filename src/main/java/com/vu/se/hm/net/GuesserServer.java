@@ -123,4 +123,15 @@ public class GuesserServer implements WordGuesser, Runnable{
     public boolean isWrongGuess() {
         return guesser.isWrongGuess();
     }
+    
+    public void close(){
+        Iterator i = players.iterator();
+        SocketHandler player;
+        while(i.hasNext()){
+            player = (SocketHandler) i.next();
+            if(player.isConnected()){
+                player.close();
+            }
+        }
+    }
 }
