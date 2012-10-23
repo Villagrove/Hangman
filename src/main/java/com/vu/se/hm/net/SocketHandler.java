@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Dan Cannon
  */
 public class SocketHandler implements Runnable{
-    private static ServerSocket server;
+    private static volatile ServerSocket server;
     private static int maxplayers = 4;
     private static int numplayers = 0;
     private Socket socket;
@@ -64,6 +64,7 @@ public class SocketHandler implements Runnable{
                 socket.close();
                 connected  = false;
                 numplayers--;
+                System.out.println("Close");
             if(numplayers <= 0){
                 stopWaitingForConnections();
             }
