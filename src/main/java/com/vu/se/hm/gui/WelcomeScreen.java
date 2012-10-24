@@ -199,6 +199,12 @@ WordValidator validator;
 		 *    -Pass the phrase, number of players, and their IPs to the game manager
 		 */
 		
+        GuesserServer server = new GuesserServer(currentWord);
+        for (int i=0; i<numPlayers-1; i++){server.addPlayer();}
+        (new Thread(server)).start();
+        ViewController serverViewController = new ViewController(server, true);
+        server.addEventListener(serverViewController);
+		
 	}
 	public void joinGame(){}
 	public class ButtonListener implements ActionListener{
@@ -211,6 +217,13 @@ WordValidator validator;
 				hostIP = JOptionPane.showInputDialog(null, "Please enter the host's IP (xxx.xxx.xxx.xxx format):", "Word Entry",
 						JOptionPane.PLAIN_MESSAGE);
 			}
+			
+			GuesserClient client = new GuesserClient();               
+            client.connect("127.0.0.1", 1234);
+            (new Thread(client)).start();
+            ViewController hangmanViewController = new ViewController(client, false);
+            client.addEventListener(hangmanViewController);
+            
 		}
 	}
 	
