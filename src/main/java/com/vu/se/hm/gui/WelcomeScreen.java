@@ -1,11 +1,14 @@
 package com.vu.se.hm.gui;
 
+import com.vu.se.hm.net.GuesserClient;
+import com.vu.se.hm.net.GuesserServer;
 import com.vu.se.hm.util.WordValidator;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import javax.imageio.*;
 import java.io.*;
+import java.net.URL;
 import javax.swing.*;
 
 public class WelcomeScreen extends JPanel {
@@ -64,23 +67,25 @@ WordValidator validator;
 		*/
 		      BufferedImage sourceImage = null;
 		      try {
-		    	String ref = "teenage-fun.jpg";
-		        URL url = this.getClass().getClassLoader().getResource(ref);            
-		       sourceImage = ImageIO.read(url);
-			   picLabel = new JLabel(new ImageIcon( sourceImage ));
+                           String ref = "teenage-fun.jpg";
+                           URL url = this.getClass().getClassLoader().getResource(ref);
+                           
+                           sourceImage = ImageIO.read(url);
+			   JLabel picLabel = new JLabel(new ImageIcon( sourceImage ));
 			   imageBox.add(picLabel);
 		       } catch (IOException e) {
-		       		fail("Failed to load: "+ref);
+                           System.out.println(e);
+                           //fail("Failed to load: " + ref);
 		       }
 		
 		      try {
 		    	  String ref = "hangman.png";
 		    	  URL url = this.getClass().getClassLoader().getResource(ref);            
 		    	  sourceImage = ImageIO.read(url);
-		    	  picLabel = new JLabel(new ImageIcon( sourceImage ));
+		    	  JLabel picLabel = new JLabel(new ImageIcon( sourceImage ));
 		    	  imageBox.add(picLabel);
 		      	} catch (IOException e) {
-		    	  fail("Failed to load: "+ref);
+		    	  //fail("Failed to load: "+ref);
 		      }
 		credits = new JLabel("Created by Team Teenage Mutant Ninja Turtles: Dan, Mike, Pal, and Mounika");
 		creditBox.add(credits);
@@ -187,7 +192,7 @@ WordValidator validator;
 			currentWord = JOptionPane.showInputDialog(this, "Please enter the word or phrase to be guessed (only letters and spaces are allowed):",
 				"Word Entry", JOptionPane.PLAIN_MESSAGE);
 			currentWord = currentWord.toUpperCase();
-			validPhrase = validator.isValidPhrase(currentWord);
+			validPhrase = validator.isValidString(currentWord);
 			if(!validPhrase){
 				JOptionPane.showMessageDialog(this,"Phrase is invalid (only letters and spaces please!)", "Invalid word",
 						JOptionPane.ERROR_MESSAGE);

@@ -1,18 +1,21 @@
 package com.vu.se.hm.gui;
 
 import com.vu.se.hm.net.*;
+import javax.swing.JFrame;
 
 
 public class HangmanStarter {
 
 	public static void main(String[] sd) {
-                /*
+                
 		JFrame frame = new JFrame("TMNT Hangman");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.add(new HangmanWelcomeScreen());
+                frame.add(new WelcomeScreen());
                 frame.setSize(800,600);
                 frame.setVisible(true);
-                */
+                
+            
+                /*
                 GuesserServer server = new GuesserServer("TEST");
                 server.addPlayer();
                 server.addPlayer();
@@ -31,6 +34,7 @@ public class HangmanStarter {
                 (new Thread(client2)).start();
 		ViewController hangmanViewController2 = new ViewController(client2, false);
                 client2.addEventListener(hangmanViewController2);
+                */
 	}
 
 }
