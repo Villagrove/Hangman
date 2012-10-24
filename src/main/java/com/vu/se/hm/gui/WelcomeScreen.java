@@ -47,7 +47,7 @@ WordValidator validator;
 		buttonBox.add(onePlayerButton);
 		buttonBox.add(Box.createRigidArea(new Dimension(100,0)));
 		buttonBox.add(twoPlayerButton);
-
+		/*
 		try{
 			BufferedImage myPicture = ImageIO.read(new File("C:\\hangman\\teenage-fun.jpg"));
 			JLabel picLabel = new JLabel(new ImageIcon( myPicture ));
@@ -61,7 +61,27 @@ WordValidator validator;
 		catch (IOException e){
 			JOptionPane.showMessageDialog(null, "Image file not found");
 		}
+		*/
+		      BufferedImage sourceImage = null;
+		      try {
+		    	String ref = "teenage-fun.jpg";
+		        URL url = this.getClass().getClassLoader().getResource(ref);            
+		       sourceImage = ImageIO.read(url);
+			   picLabel = new JLabel(new ImageIcon( sourceImage ));
+			   imageBox.add(picLabel);
+		       } catch (IOException e) {
+		       		fail("Failed to load: "+ref);
+		       }
 		
+		      try {
+		    	  String ref = "hangman.png";
+		    	  URL url = this.getClass().getClassLoader().getResource(ref);            
+		    	  sourceImage = ImageIO.read(url);
+		    	  picLabel = new JLabel(new ImageIcon( sourceImage ));
+		    	  imageBox.add(picLabel);
+		      	} catch (IOException e) {
+		    	  fail("Failed to load: "+ref);
+		      }
 		credits = new JLabel("Created by Team Teenage Mutant Ninja Turtles: Dan, Mike, Pal, and Mounika");
 		creditBox.add(credits);
 		this.add(titleBox);
@@ -167,8 +187,7 @@ WordValidator validator;
 			currentWord = JOptionPane.showInputDialog(this, "Please enter the word or phrase to be guessed (only letters and spaces are allowed):",
 				"Word Entry", JOptionPane.PLAIN_MESSAGE);
 			currentWord = currentWord.toUpperCase();
-			validPhrase = verifyPhrase(currentWord);
-			//validPhrase = validator.isValidPhrase(currentWord);
+			validPhrase = validator.isValidPhrase(currentWord);
 			if(!validPhrase){
 				JOptionPane.showMessageDialog(this,"Phrase is invalid (only letters and spaces please!)", "Invalid word",
 						JOptionPane.ERROR_MESSAGE);
