@@ -79,7 +79,7 @@ public class SocketHandler implements Runnable{
                 connected  = false;
                 numplayers--;
                 System.out.println("Close");
-            if(numplayers <= 0){
+            if(numplayers < 1){
                 stopWaitingForConnections();
             }
             } catch (IOException e){
@@ -111,6 +111,7 @@ public class SocketHandler implements Runnable{
     public void run() {
         waitForConnection();
         HangmanPacket packet;
+        System.out.println("Connected");
         while(connected){
             try{
                 packet = (HangmanPacket) in.readObject();

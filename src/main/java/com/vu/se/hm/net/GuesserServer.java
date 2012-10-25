@@ -76,8 +76,8 @@ public class GuesserServer implements WordGuesser, Runnable{
             if(!queue.isEmpty()){
                 packet = (HangmanPacket)queue.remove();
                 guess(packet.letter); // Takes letter from player and Guesses that letter
-                sendData(packet); //Sends a return packet with updated information to each player
                 fireEvent(packet.letter); //Update interface
+                sendData(packet); //Sends a return packet with updated information to each player
             }
         }
     }

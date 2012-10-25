@@ -10,5 +10,4 @@ public class HangmanPacket implements Serializable{
     char letter;
     int missCount;
     String disguisedWord;
-    String playerName; //Not currently used.
 }

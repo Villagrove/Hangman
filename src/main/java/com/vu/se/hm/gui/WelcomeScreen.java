@@ -1,5 +1,5 @@
 package com.vu.se.hm.gui;
- 
+
 import com.vu.se.hm.net.GuesserClient;
 import com.vu.se.hm.net.GuesserServer;
 import com.vu.se.hm.util.WordValidator;
@@ -141,7 +141,7 @@ public class WelcomeScreen extends JPanel {
                 createGame2();
             }
         });
-        
+
         oPane.setLayout(new BoxLayout(oPane, BoxLayout.Y_AXIS));
         oPane.add(twoButton);
         oPane.add(threeButton);
@@ -204,14 +204,14 @@ public class WelcomeScreen extends JPanel {
 		
      }
      */
-    
+
     //Promts the user to enter a phrase
     //The method validates it using WordValidator, then starts the game 
     public void createGame2() {
         popUpFrame.setVisible(false);
         popUpFrame = null;
         boolean validPhrase = false;
-        
+
         //Loop through until the user inputs a valid phrase
         while (!validPhrase) {
             currentWord = JOptionPane.showInputDialog(this, "Please enter the word or phrase to be guessed (only letters and spaces are allowed):",
@@ -228,7 +228,6 @@ public class WelcomeScreen extends JPanel {
         /* This is when the game starts
          *    -Pass the phrase, number of players, and their IPs to the game manager
          */
-
         GuesserServer server = new GuesserServer(currentWord);
         for (int i = 0; i < numPlayers - 1; i++) {
             server.addPlayer();
@@ -249,7 +248,7 @@ public class WelcomeScreen extends JPanel {
         client.addEventListener(hangmanViewController);
     }
 
-//Action listener for the "Create a Game" and "Join a Game" buttons
+    //Action listener for the "Create a Game" and "Join a Game" buttons
     public class ButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
