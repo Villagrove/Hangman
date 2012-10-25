@@ -227,6 +227,11 @@ public class WelcomeScreen extends JPanel {
     }
 
     public void joinGame() {
+        GuesserClient client = new GuesserClient();
+        client.connect(hostIP, 1234);
+        (new Thread(client)).start();
+        ViewController hangmanViewController = new ViewController(client, false);
+        client.addEventListener(hangmanViewController);
     }
 
     public class ButtonListener implements ActionListener {
@@ -239,14 +244,8 @@ public class WelcomeScreen extends JPanel {
             if (e.getActionCommand().equals("Join a game")) {
                 hostIP = JOptionPane.showInputDialog(null, "Please enter the host's IP (xxx.xxx.xxx.xxx format):", "Word Entry",
                         JOptionPane.PLAIN_MESSAGE);
+                joinGame();
             }
-
-            GuesserClient client = new GuesserClient();
-            client.connect("127.0.0.1", 1234);
-            (new Thread(client)).start();
-            ViewController hangmanViewController = new ViewController(client, false);
-            client.addEventListener(hangmanViewController);
-
         }
     }
 
