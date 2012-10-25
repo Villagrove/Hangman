@@ -32,7 +32,6 @@ public class SocketHandler implements Runnable{
             if(server == null){
                 server = new ServerSocket(port, maxplayers); //If this is the first player create server sucket.
             }
-            numplayers++;
         } catch (IOException e){
             System.out.println(e);
         }       
@@ -49,6 +48,7 @@ public class SocketHandler implements Runnable{
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             connected = true;
+            numplayers++;
         } catch (IOException e){
             System.out.println(e);
         }

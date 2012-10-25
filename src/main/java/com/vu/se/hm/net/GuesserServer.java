@@ -60,8 +60,12 @@ public class GuesserServer implements WordGuesser, Runnable{
         packet.disguisedWord = guesser.getDisguisedWord();
         packet.missCount = guesser.getMissCount();
         Iterator i = players.iterator();
+        SocketHandler player;
         while(i.hasNext()){
-            ((SocketHandler)i.next()).sendData(packet);
+            player = (SocketHandler)i.next();
+            if(player.isConnected()){
+                player.sendData(packet);
+            }
         }
     }
     
