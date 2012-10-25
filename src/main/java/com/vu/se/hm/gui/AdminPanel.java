@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.vu.se.hm.gui;
 
 import java.awt.Graphics;
@@ -10,8 +7,7 @@ import javax.swing.*;
 
 
 /**
- *
- * @author capnhowdy21
+ * AdminPanel. unfinished. The Bottom panel for the host.
  */
 public class AdminPanel extends JPanel{
     private JComboBox players;

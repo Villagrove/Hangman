@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.vu.se.hm.gui;
 
 import java.util.EventObject;
 
 /**
- *
- * @author Dan
+ * HangmanEvent. Called by GuesserClient/Server when packets have been received.
+ * Tells the interface to update its data.
  */
 public class HangmanEvent extends EventObject{
     

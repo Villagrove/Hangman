@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 /**
  * Guess Panel
  * This panel draws the word to be guessed.
- * @author Dan Cannon
  */
 public class GuessPanel extends JPanel{
     

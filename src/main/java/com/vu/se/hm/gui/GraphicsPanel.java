@@ -7,16 +7,14 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 /**
- * Graphics Panel
- * Draws the stick figure
- * @author Dan Cannon
+ * Graphics Panel. Draws the stick figure
  */
 public class GraphicsPanel extends JPanel{
     
     private int wrongs;
     
     /**
-     *
+     * Dimension
      * @return Preferred Dimensions for this panel
      */
     @Override
@@ -25,7 +23,7 @@ public class GraphicsPanel extends JPanel{
     }
     
     /**
-     *
+     * setWrongs
      * @param wrongs number of incorrect guesses
      */
     public void setWrongs(int wrongs){
@@ -40,7 +38,7 @@ public class GraphicsPanel extends JPanel{
     
 
     /**
-     * Paints the stick figure, switch fall thru is intentional
+     * paint. Paints the stick figure, switch fall thru is intentional
      * @param g Graphics context to draw upon
      */
     @Override

@@ -19,7 +19,7 @@ public class HangmanStarter {
                 GuesserServer server = new GuesserServer("TEST");
                 server.addPlayer();
                 server.addPlayer();
-                (new Thread(server)).start();
+                (new Thread(server)).start();                
                 ViewController serverViewController = new ViewController(server, true);
                 server.addEventListener(serverViewController);
                 
@@ -35,6 +35,7 @@ public class HangmanStarter {
 		ViewController hangmanViewController2 = new ViewController(client2, false);
                 client2.addEventListener(hangmanViewController2);
                 */
+                
 	}
 
 }

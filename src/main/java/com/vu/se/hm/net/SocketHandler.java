@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.vu.se.hm.net;
 
 import java.io.*;
@@ -9,11 +6,11 @@ import java.net.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- *
- * @author Dan Cannon
+ * SocketHandler. also known as player. The individual socket handlers for each player
+ * used by GuesserServer.
  */
 public class SocketHandler implements Runnable{
-    private static volatile ServerSocket server;
+    private static volatile ServerSocket server; //Only one server socket is need for all players
     private static int maxplayers = 4;
     private static int numplayers = 0;
     private Socket socket;
@@ -22,13 +19,18 @@ public class SocketHandler implements Runnable{
     private boolean connected;
     private volatile ConcurrentLinkedQueue<HangmanPacket> queue;
     
-    
+    /**
+     * Constructor
+     * @param queue shared queue between all SocketHandlers and Guesser server to store
+     * the various incoming packets.
+     * @param port 
+     */
     public SocketHandler(ConcurrentLinkedQueue<HangmanPacket> queue, int port){
         try{
             this.queue = queue;
             connected = false;
             if(server == null){
-                server = new ServerSocket(port, maxplayers);
+                server = new ServerSocket(port, maxplayers); //If this is the first player create server sucket.
             }
             numplayers++;
         } catch (IOException e){
@@ -36,10 +38,14 @@ public class SocketHandler implements Runnable{
         }       
     }
     
+    /**
+     * waitForConnection(). this is called when we want the handler to listen for
+     * an incoming player connection. Will hang till connection is established.
+     */
     public void waitForConnection(){
         System.out.println("Waiting for connections");
         try{
-            socket = server.accept();
+            socket = server.accept(); //Will hang till connection is established
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             connected = true;
@@ -48,14 +54,22 @@ public class SocketHandler implements Runnable{
         }
     }
     
+    /**
+     * stopWaitingForConnections(). Stops the server from listening for connections.
+     */
     public void stopWaitingForConnections(){
         try{
             server.close();
+            System.out.println("No longer waiting for connections.");
         } catch (IOException e){
             System.out.println(e);
         }
     }
     
+    /**
+     * close(). Close out all the connections for this instance.
+     * if the last player is removed, then tell the server socket to stop listening.
+     */
     public void close(){
         if(connected){
             try{
@@ -75,6 +89,10 @@ public class SocketHandler implements Runnable{
         
     }
     
+    /**
+     * sendData(). Sends the data out the output stream and to client.
+     * @param packet HangmanPacket
+     */
     public void sendData(HangmanPacket packet){
         try{
             out.writeObject(packet);
@@ -83,6 +101,12 @@ public class SocketHandler implements Runnable{
         }
     }
     
+    /**
+     * run(). Called when new thread is started
+     * Waits for incoming connections, then while connected reads input objects
+     * and adds them to the queue for the GuesserServer to process. Finally closes
+     * all streams and connections.
+     */
     @Override
     public void run() {
         waitForConnection();
@@ -108,6 +132,10 @@ public class SocketHandler implements Runnable{
         queue.add(packet);
     }
     
+    /**
+     * Finalize(). Should not be manually called, here in case of logic breakdown
+     * @throws Throwable 
+     */
     @Override
     public void finalize() throws Throwable{
         close();

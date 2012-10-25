@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.vu.se.hm.gui;
 
 /**
- *
- * @author Dan
+ * HangmanEventListener. The EventListener for HangmanEvents
  */
 public interface HangmanEventListener {
     public void handleHangmanEvent(HangmanEvent e);

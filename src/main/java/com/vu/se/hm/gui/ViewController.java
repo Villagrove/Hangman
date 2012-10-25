@@ -9,9 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 /**
- * Hangman View Controller
- * Action Listener HangmanEventListener
- * @author Dan Cannon
+ * ViewController. This is the interface for the hangman game.
+ * ActionListener, HangmanEventListener
  */
 public class ViewController implements ActionListener, HangmanEventListener{
     
@@ -22,6 +21,11 @@ public class ViewController implements ActionListener, HangmanEventListener{
     private WordGuesser guesser;
     private Boolean isAdmin = false;
     
+    /**
+     * Constructor.
+     * @param guesser The specific GuesserInterface to be used.
+     * @param gameAdmin True if this interface is for the host.
+     */
     public ViewController(WordGuesser guesser, boolean gameAdmin){
         JFrame frame = new JFrame("TMNT Hangman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,10 +60,18 @@ public class ViewController implements ActionListener, HangmanEventListener{
         frame.setVisible(true);
     }
     
+    /**
+     * guessLetter. Called when a letter is guessed by the player
+     * @param letter the char to be guessed.
+     */
     public void guessLetter(char letter){
         guesser.guess(letter);
     }
     
+    /**
+     * update(). Called when a EventType.update has be received.
+     * @param letter 
+     */
     public void update(char letter){
         guess.setWord(guesser.getDisguisedWord());
         graphics.setWrongs(guesser.getMissCount());
@@ -70,17 +82,24 @@ public class ViewController implements ActionListener, HangmanEventListener{
         }      
     }
     
+    /**
+     * actionPerformed. Called when a letter button is pressed.
+     * @param e button pressed
+     */
     @Override
     public void actionPerformed(ActionEvent e){
             String action = e.getActionCommand();
             if(action != null){
                 if(action.length() == 1){
-                    letters.disableButton(action.charAt(0));
                     guessLetter(action.charAt(0));
                 }
             }
     }
 
+    /**
+     * handleHangmanEvent.
+     * @param e the HangmanEvent that was received.
+     */
     @Override
     public void handleHangmanEvent(HangmanEvent e) {
         update(e.letter);
