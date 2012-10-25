@@ -1,5 +1,5 @@
 package com.vu.se.hm.gui;
-
+ 
 import com.vu.se.hm.net.GuesserClient;
 import com.vu.se.hm.net.GuesserServer;
 import com.vu.se.hm.util.WordValidator;
@@ -11,6 +11,12 @@ import java.io.*;
 import java.net.URL;
 import javax.swing.*;
 
+
+/*This is the welcome screen for the hangman program.
+ *It allows the user to select whether s/he would like to create
+ *a game by specifying the number of players and the word to be
+ *guessed, or join a game by using the host's IP
+ */
 public class WelcomeScreen extends JPanel {
 
     JPanel panel;
@@ -102,6 +108,7 @@ public class WelcomeScreen extends JPanel {
         this.add(buttonBox);
     }
 
+    //Creates and displays the first "Create A Game" screen
     public void createGame1() {
         final ButtonGroup buttonGroup = new ButtonGroup();
         JPanel oPane = new JPanel();
@@ -118,6 +125,7 @@ public class WelcomeScreen extends JPanel {
         buttonGroup.add(threeButton);
         buttonGroup.add(fourButton);
         JButton nextButton = new JButton("Next");
+        //Sets the number of players based on which button was selected
         nextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String command = buttonGroup.getSelection().getActionCommand();
@@ -133,6 +141,7 @@ public class WelcomeScreen extends JPanel {
                 createGame2();
             }
         });
+        
         oPane.setLayout(new BoxLayout(oPane, BoxLayout.Y_AXIS));
         oPane.add(twoButton);
         oPane.add(threeButton);
@@ -195,11 +204,15 @@ public class WelcomeScreen extends JPanel {
 		
      }
      */
-
+    
+    //Promts the user to enter a phrase
+    //The method validates it using WordValidator, then starts the game 
     public void createGame2() {
         popUpFrame.setVisible(false);
         popUpFrame = null;
         boolean validPhrase = false;
+        
+        //Loop through until the user inputs a valid phrase
         while (!validPhrase) {
             currentWord = JOptionPane.showInputDialog(this, "Please enter the word or phrase to be guessed (only letters and spaces are allowed):",
                     "Word Entry", JOptionPane.PLAIN_MESSAGE);
@@ -226,6 +239,8 @@ public class WelcomeScreen extends JPanel {
 
     }
 
+    //Method that joins a game
+    //User enters an IP, which is then used to connect to the server
     public void joinGame() {
         GuesserClient client = new GuesserClient();
         client.connect(hostIP, 1234);
@@ -234,6 +249,7 @@ public class WelcomeScreen extends JPanel {
         client.addEventListener(hangmanViewController);
     }
 
+//Action listener for the "Create a Game" and "Join a Game" buttons
     public class ButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
