@@ -74,8 +74,8 @@ public class WelcomeScreen extends JPanel {
          */
         BufferedImage sourceImage = null;
         try {
-            String ref = "teenage-fun.jpg";
-            URL url = this.getClass().getClassLoader().getResource(ref);
+            String ref = "/res/teenage-fun.jpg";
+            URL url = this.getClass().getResource(ref);
             if (url != null) {
                 sourceImage = ImageIO.read(url);
                 JLabel picLabel = new JLabel(new ImageIcon(sourceImage));
@@ -87,8 +87,8 @@ public class WelcomeScreen extends JPanel {
         }
 
         try {
-            String ref = "hangman.png";
-            URL url = this.getClass().getClassLoader().getResource(ref);
+            String ref = "/res/hangman.png";
+            URL url = this.getClass().getResource(ref);
             if (url != null) {
                 sourceImage = ImageIO.read(url);
                 JLabel picLabel = new JLabel(new ImageIcon(sourceImage));
