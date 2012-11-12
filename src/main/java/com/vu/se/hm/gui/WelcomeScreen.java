@@ -233,7 +233,7 @@ public class WelcomeScreen extends JPanel {
             server.addPlayer();
         }
         (new Thread(server)).start();
-        ViewController serverViewController = new ViewController(server, true);
+        ViewController serverViewController = new ServerViewController(server);
         server.addEventListener(serverViewController);
 
     }
@@ -244,7 +244,7 @@ public class WelcomeScreen extends JPanel {
         GuesserClient client = new GuesserClient();
         client.connect(hostIP, 1234);
         (new Thread(client)).start();
-        ViewController hangmanViewController = new ViewController(client, false);
+        ViewController hangmanViewController = new ClientViewController(client);
         client.addEventListener(hangmanViewController);
     }
 
