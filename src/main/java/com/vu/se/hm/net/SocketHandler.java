@@ -30,7 +30,7 @@ public class SocketHandler implements Runnable{
             this.queue = queue;
             connected = false;
             if(server == null){
-                server = new ServerSocket(port, maxplayers); //If this is the first player create server sucket.
+                server = new ServerSocket(port, maxplayers); //If this is the first player create server socket.
             }
         } catch (IOException e){
             System.out.println(e);
@@ -133,6 +133,9 @@ public class SocketHandler implements Runnable{
         queue.add(packet);
     }
     
+    public static boolean atMaxPlayers(){
+        return numplayers >= maxplayers;
+    }
     /**
      * Finalize(). Should not be manually called, here in case of logic breakdown
      * @throws Throwable 

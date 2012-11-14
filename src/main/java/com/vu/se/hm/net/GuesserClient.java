@@ -72,7 +72,7 @@ public class GuesserClient implements WordGuesser, Runnable{
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             connected = true;
-            System.out.println("Connected at port: " + port);
+            sendData(new HangmanPacket(HangmanPacket.PacketType.CONNECT));
         } catch (IOException e){
             System.out.println("Could not connect to Host:" + e);
         }
@@ -117,11 +117,24 @@ public class GuesserClient implements WordGuesser, Runnable{
             while(connected){
                 packet = (HangmanPacket) in.readObject(); // Will hang until there is an object to read.
                 if (packet != null)
-                {
-                    this.missCount = packet.missCount;
-                    this.disguisedWord = packet.disguisedWord;
-                    lettersGuessed.add(packet.letter);
-                    fireEvent(packet.letter); //Sends an event with data from the server to all listeners
+                {   
+                    switch(packet.type){
+                        case GUESS:
+                            this.missCount = packet.missCount;
+                            this.disguisedWord = packet.disguisedWord;
+                            lettersGuessed.add(packet.letter);
+                            fireEvent(packet.letter); //Sends an event with data from the server to all listeners
+                            break;
+                        case WIN:
+                            break;
+                        case LOSE:
+                            break;
+                        case KICKED:
+                            break;
+                        case CONNECT:
+                            System.out.println(packet.disguisedWord);
+                            break;
+                    }
                 }
             }
         } catch (IOException e){
@@ -138,7 +151,7 @@ public class GuesserClient implements WordGuesser, Runnable{
      */
     @Override
     public String guess(char letter) {
-        HangmanPacket packet = new HangmanPacket();
+        HangmanPacket packet = new HangmanPacket(HangmanPacket.PacketType.GUESS);
         packet.letter = letter;
         sendData(packet);
         return disguisedWord;

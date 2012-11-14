@@ -33,9 +33,19 @@ public class GuesserServer implements WordGuesser, Runnable{
      * server to listen for.
      */
     public void addPlayer(){
-        SocketHandler temp = new SocketHandler(queue, 1234);
-        (new Thread(temp)).start(); 
-        players.add(temp);
+        if(!SocketHandler.atMaxPlayers()){
+            SocketHandler temp = new SocketHandler(queue, 1234);
+            (new Thread(temp)).start(); 
+            players.add(temp);
+        }
+    }
+    
+    /**
+     * kickPlayer. removes a player from the game.
+     */
+    public void kickPlayer(int i){
+        SocketHandler tmp = ((SocketHandler)players.get(i));
+        tmp.close();
     }
     
     /**
@@ -53,11 +63,16 @@ public class GuesserServer implements WordGuesser, Runnable{
     }
     
     /**
-     * sendData. this Class tells each socketHandler to send a pack to the respective player
+     * sendData. this Class tells all socketHandlesr to send a pack to their player
      * @param packet 
      */
     public void sendData(HangmanPacket packet){
-        packet.disguisedWord = guesser.getDisguisedWord();
+        if(packet.type == HangmanPacket.PacketType.CONNECT){
+            packet.disguisedWord = getLettersGuessed().toString();
+        } else{
+            packet.disguisedWord = guesser.getDisguisedWord();
+            System.out.println("Um");
+        }
         packet.missCount = guesser.getMissCount();
         Iterator i = players.iterator();
         SocketHandler player;
@@ -79,9 +94,18 @@ public class GuesserServer implements WordGuesser, Runnable{
         while(!isGameOver()){
             if(!queue.isEmpty()){
                 packet = (HangmanPacket)queue.remove();
-                guess(packet.letter); // Takes letter from player and Guesses that letter
-                fireEvent(packet.letter); //Update interface
-                sendData(packet); //Sends a return packet with updated information to each player
+                switch(packet.type){
+                    case GUESS:
+                        guess(packet.letter); // Takes letter from player and Guesses that letter
+                        fireEvent(packet.letter); //Update interface
+                        sendData(packet); //Sends a return packet with updated information to each player
+                        break;
+                    case CONNECT:
+                        sendData(packet); //Send a connect packet with the current letters guessed in disguisedString
+                        sendData(new HangmanPacket(HangmanPacket.PacketType.GUESS)); //send another pack with the disquised word
+                        break;
+                }
+                
             }
         }
     }

@@ -27,7 +27,7 @@ public abstract class ViewController implements ActionListener, HangmanEventList
      */
     public ViewController(WordGuesser guesser){
         frame = new JFrame("TMNT Hangman");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setMinimumSize(new Dimension(640,440));
         frame.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
