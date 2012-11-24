@@ -12,32 +12,25 @@ import javax.swing.*;
 public class AdminPanel extends JPanel{
     private JComboBox players;
     private JButton kick;
-    private String letters;
+    private JTextField letters;
 
     
-    public AdminPanel(ActionListener controller){
-        players = new JComboBox();
-
+    public AdminPanel(ActionListener controller, DefaultComboBoxModel model){
+        this.players = new JComboBox(model);
+        
         kick = new JButton("Kick");
         kick.addActionListener(controller);
 
-        letters = "";
+        letters = new JTextField("");
+        letters.setColumns(13);
+        letters.setEditable(false);
         
-        this.add(players);
+        this.add(this.players);
         this.add(kick);
-    }
-    
-    public void addPlayer(){
-        players.addItem(null);
+        this.add(letters);
     }
     
     public void setLetters(String letters){
-        this.letters = letters;
-        this.repaint();
-    }
-    
-    @Override
-    public void paint(Graphics g){
-        g.drawString(letters, this.getWidth()/2 + 20, this.getHeight()/2 - 10);
+        this.letters.setText(letters);
     }
 }

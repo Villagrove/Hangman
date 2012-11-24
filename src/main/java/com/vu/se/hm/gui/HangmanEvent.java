@@ -8,7 +8,7 @@ import java.util.EventObject;
  */
 public class HangmanEvent extends EventObject{
     
-    public enum EventType {GAMESTART, UPDATE, GAMEEND};
+    public enum EventType {CONNECT, UPDATE, WIN, LOSE, KICKED};
     
     EventType type;
     char letter;

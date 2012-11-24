@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * GuesserServer. This is the class called by the host player.
  */
-public class GuesserServer implements WordGuesser, Runnable{
+public class GuesserServer implements WordGuesser, Runnable, Admin{
     private List listeners;
     private ConcurrentLinkedQueue queue;
     private WordGuesser guesser;
@@ -45,9 +45,11 @@ public class GuesserServer implements WordGuesser, Runnable{
      */
     public void kickPlayer(int i){
         SocketHandler tmp = ((SocketHandler)players.get(i));
+        tmp.sendData(new HangmanPacket(HangmanPacket.PacketType.KICKED));
         tmp.close();
+        players.remove(i);
     }
-    
+     
     /**
      * Close. this close all appropriate sockets for the server and individual sockethandlers;
      */
@@ -67,12 +69,7 @@ public class GuesserServer implements WordGuesser, Runnable{
      * @param packet 
      */
     public void sendData(HangmanPacket packet){
-        if(packet.type == HangmanPacket.PacketType.CONNECT){
-            packet.disguisedWord = getLettersGuessed().toString();
-        } else{
-            packet.disguisedWord = guesser.getDisguisedWord();
-            System.out.println("Um");
-        }
+        packet.disguisedWord = guesser.getDisguisedWord();
         packet.missCount = guesser.getMissCount();
         Iterator i = players.iterator();
         SocketHandler player;
@@ -97,17 +94,22 @@ public class GuesserServer implements WordGuesser, Runnable{
                 switch(packet.type){
                     case GUESS:
                         guess(packet.letter); // Takes letter from player and Guesses that letter
-                        fireEvent(packet.letter); //Update interface
+                        fireEvent(HangmanEvent.EventType.UPDATE, packet.letter); //Update interface
                         sendData(packet); //Sends a return packet with updated information to each player
                         break;
                     case CONNECT:
-                        sendData(packet); //Send a connect packet with the current letters guessed in disguisedString
-                        sendData(new HangmanPacket(HangmanPacket.PacketType.GUESS)); //send another pack with the disquised word
+                        sendData(packet); 
                         break;
                 }
-                
             }
         }
+        if(isFound()){
+            packet = new HangmanPacket(HangmanPacket.PacketType.WIN);
+        } else {
+            packet = new HangmanPacket(HangmanPacket.PacketType.LOSE);
+        }
+        sendData(packet);
+        close();
     }
     
     /**
@@ -130,14 +132,19 @@ public class GuesserServer implements WordGuesser, Runnable{
      * fireEvent. This event is fired every time the server receives new guesses.
      * @param letter 
      */
-    private synchronized void fireEvent(char letter){
-        HangmanEvent event = new HangmanEvent(this, HangmanEvent.EventType.UPDATE, letter);
+    private synchronized void fireEvent(HangmanEvent.EventType type, char letter){
+        HangmanEvent event = new HangmanEvent(this, type, letter);
         Iterator i = listeners.iterator();
         while(i.hasNext()){
             ((HangmanEventListener) i.next()).handleHangmanEvent(event);
         }
     }
-
+  
+    @Override
+    public int numPlayers(){
+        return this.players.size();
+    }
+    
     @Override
     public String guess(char letter) {
         return guesser.guess(letter);

@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -69,7 +70,26 @@ public abstract class ViewController implements ActionListener, HangmanEventList
      */
     @Override
     public void handleHangmanEvent(HangmanEvent e) {
-        update(e.letter);
+        switch(e.type){
+            case UPDATE:
+                update(e.letter);
+                break;
+            case WIN:
+                JOptionPane.showMessageDialog(frame, "You have won the game!", "Win", JOptionPane.WARNING_MESSAGE);
+                frame.dispose();
+                break;
+            case LOSE:
+                update(e.letter);
+                JOptionPane.showMessageDialog(frame, "You have lost the game!", "Lose", JOptionPane.WARNING_MESSAGE);
+                frame.dispose();
+                break;
+            case KICKED:
+                JOptionPane.showMessageDialog(frame, "You have been kicked!", "Kicked", JOptionPane.WARNING_MESSAGE);
+                frame.dispose();
+                break;
+            case CONNECT:
+                update(e.letter);
+                break;
+        }
     }
-    
 }

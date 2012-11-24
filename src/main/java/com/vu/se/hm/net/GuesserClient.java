@@ -7,6 +7,7 @@ import com.vu.se.hm.gui.HangmanEventListener;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 /**
  * GuesserClient. this is the class called when a player wants to join a game
@@ -16,7 +17,7 @@ public class GuesserClient implements WordGuesser, Runnable{
     private List listeners;
     private volatile int missCount;
     private volatile String disguisedWord;
-    private volatile Set<Character> lettersGuessed = new HashSet<Character>();
+    private volatile Set<Character> lettersGuessed = new HashSet();
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private Socket socket;
@@ -53,8 +54,8 @@ public class GuesserClient implements WordGuesser, Runnable{
      * This is called every time GuesserClient receives a packet form the server
      * @param letter the letter that was guess, can be anything if EventType is not update
      */
-    private synchronized void fireEvent(char letter){
-        HangmanEvent event = new HangmanEvent(this, HangmanEvent.EventType.UPDATE, letter);
+    private synchronized void fireEvent(HangmanEvent.EventType type, char letter){
+        HangmanEvent event = new HangmanEvent(this, type, letter);
         Iterator i = listeners.iterator();
         while(i.hasNext()){
             ((HangmanEventListener) i.next()).handleHangmanEvent(event);
@@ -123,16 +124,24 @@ public class GuesserClient implements WordGuesser, Runnable{
                             this.missCount = packet.missCount;
                             this.disguisedWord = packet.disguisedWord;
                             lettersGuessed.add(packet.letter);
-                            fireEvent(packet.letter); //Sends an event with data from the server to all listeners
+                            fireEvent(HangmanEvent.EventType.UPDATE, packet.letter); //Sends an event with data from the server to all listeners
                             break;
                         case WIN:
+                            fireEvent(HangmanEvent.EventType.WIN, packet.letter); //Sends an event with data from the server to all listeners
+                            close();
                             break;
                         case LOSE:
+                            this.disguisedWord = packet.disguisedWord;
+                            fireEvent(HangmanEvent.EventType.LOSE, packet.letter); //Sends an event with data from the server to all listeners
+                            close();
                             break;
                         case KICKED:
+                            close();
+                            fireEvent(HangmanEvent.EventType.KICKED, 'a');
                             break;
                         case CONNECT:
-                            System.out.println(packet.disguisedWord);
+                            this.disguisedWord = packet.disguisedWord;
+                            fireEvent(HangmanEvent.EventType.CONNECT, packet.letter); //Sends an event with data from the server to all listeners
                             break;
                     }
                 }

@@ -4,8 +4,11 @@
  */
 package com.vu.se.hm.gui;
 
+import com.vu.se.hm.net.Admin;
 import com.vu.se.hm.service.WordGuesser;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
+
 
 /**
  *
@@ -13,18 +16,26 @@ import java.awt.event.ActionEvent;
  */
 public class ServerViewController extends ViewController{
     
-    private AdminPanel admin;
+    private AdminPanel adminPanel;
+    private Admin server;
+    private DefaultComboBoxModel<String> playerModel;
+    
     
     public ServerViewController(WordGuesser guesser){
         super(guesser);
-        admin = new AdminPanel(this);
-        super.addPanel(admin);
+        server = (Admin)guesser;
+        playerModel = new DefaultComboBoxModel();
+        for (int i = 0; i < server.numPlayers(); i++){
+            playerModel.addElement("Player " + (i+1));
+        }
+        adminPanel = new AdminPanel(this, playerModel);
+        super.addPanel(adminPanel);
     }
     
     @Override
     public void update(char letter){
         super.update(letter);
-        admin.setLetters(guesser.getLettersGuessed().toString());
+        adminPanel.setLetters(guesser.getLettersGuessed().toString());
     }
     
     /**
@@ -35,7 +46,15 @@ public class ServerViewController extends ViewController{
     public void actionPerformed(ActionEvent e){
             String action = e.getActionCommand();
             if(action != null){
-                
+                if(action.matches("Kick")){
+                    System.out.println("Kicked");
+                    Object o = playerModel.getSelectedItem();
+                    int i = playerModel.getIndexOf(o);
+                    if(i > -1){
+                        server.kickPlayer(i);
+                        playerModel.removeElement(o);
+                    }
+                }
             }
     }
 }
