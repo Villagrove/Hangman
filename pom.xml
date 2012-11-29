@@ -1,21 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>Turtles</groupId>
-  <artifactId>Hangman</artifactId>
-  <version>1.0</version>
-  <packaging>jar</packaging>
-  <name>Hangman</name>
-  <description>Hangman</description>
-  
-  
-  
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>Turtles</groupId>
+	<artifactId>Hangman</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+	<name>Hangman</name>
+	<description>Hangman</description>
+
+
+
 	<properties>
 		<java.version>1.6</java.version>
 		<org.slf4j.version>1.6.6</org.slf4j.version>
 		<spring.version>3.1.2.RELEASE</spring.version>
 	</properties>
 
-	
+
 	<dependencies>
 
 		<dependency>
@@ -144,11 +144,11 @@
 		</dependency>
 		<!-- end of testing -->
 
-		
+
 	</dependencies>
 
 
-  
+
 	<build>
 		<finalName>hangman</finalName>
 
@@ -162,10 +162,75 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-			
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<outputDirectory>${project.build.directory}</outputDirectory>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>./HangmanLib</classpathPrefix>
+							<mainClass>com.vu.se.hm.gui.HangmanStarter</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeScope>compile</includeScope>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<outputDirectory>${project.build.directory}/HangmanLib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.3,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
-	
+
 </project>
